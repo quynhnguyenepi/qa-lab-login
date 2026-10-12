@@ -1,0 +1,47 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1"><title>QA Lab</title>
+<script src="https://cdn.optimizely.com/js/4868003032989696.js"></script>
+<style>body{font-family:sans-serif;margin:0}#promo-banner{height:48px;background:#ffe9a8;padding:12px}
+@media (max-width:600px){.desktop-only{display:none}}
+#login-wall{max-width:320px;margin:80px auto;padding:24px;border:1px solid #ddd}
+#login-wall input{display:block;width:100%;margin:8px 0;padding:6px;box-sizing:border-box}</style></head><body>
+<!-- Simulated login wall (client-side). Any username + password "qa" signs in for this browser tab.
+     The page content does not exist in the DOM until you sign in, so a headless load sees only the form.
+     For a real wall, put the page behind HTTP basic auth on your host instead. -->
+<form id="login-wall">
+  <h2>Sign in</h2>
+  <input id="login-user" placeholder="Username" autocomplete="username">
+  <input id="login-pass" type="password" placeholder="Password (qa)" autocomplete="current-password">
+  <button type="submit">Sign in</button>
+  <p id="login-error" style="color:#b00;display:none">Wrong password</p>
+</form>
+<div id="app"></div>
+<template id="content">
+<div id="promo-banner">Free shipping this week</div><h1 id="hero-title">QA Lab</h1>
+<a id="cta-primary" href="#">Buy now</a><p id="price">$10</p>
+<section><h2>Features</h2><p>Fast</p></section><section><h2>FAQ</h2><p>Answers</p></section>
+<div class="desktop-only" id="desktop-note">Desktop only note</div>
+<p><a href="#" id="sign-out">Sign out</a></p>
+</template>
+<script>
+  function showContent() {
+    document.getElementById('login-wall').style.display = 'none';
+    document.getElementById('app').appendChild(document.getElementById('content').content.cloneNode(true));
+    document.getElementById('sign-out').onclick = function (e) {
+      e.preventDefault(); sessionStorage.removeItem('qa-lab-auth'); location.reload();
+    };
+  }
+  if (sessionStorage.getItem('qa-lab-auth') === '1') {
+    showContent();
+  } else {
+    document.getElementById('login-wall').onsubmit = function (e) {
+      e.preventDefault();
+      if (document.getElementById('login-pass').value === 'qa') {
+        sessionStorage.setItem('qa-lab-auth', '1'); showContent();
+      } else {
+        document.getElementById('login-error').style.display = 'block';
+      }
+    };
+  }
+</script>
+</body></html>
