@@ -28,16 +28,16 @@
     document.getElementById('login-wall').style.display = 'none';
     document.getElementById('app').appendChild(document.getElementById('content').content.cloneNode(true));
     document.getElementById('sign-out').onclick = function (e) {
-      e.preventDefault(); sessionStorage.removeItem('qa-lab-auth'); location.reload();
+      e.preventDefault(); localStorage.removeItem('qa-lab-auth'); location.reload();
     };
   }
-  if (sessionStorage.getItem('qa-lab-auth') === '1') {
+  if (localStorage.getItem('qa-lab-auth') === '1') {
     showContent();
   } else {
     document.getElementById('login-wall').onsubmit = function (e) {
       e.preventDefault();
       if (document.getElementById('login-pass').value === 'qa') {
-        sessionStorage.setItem('qa-lab-auth', '1'); showContent();
+        localStorage.setItem('qa-lab-auth', '1'); showContent();
       } else {
         document.getElementById('login-error').style.display = 'block';
       }
