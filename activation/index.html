@@ -1,0 +1,27 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><title>QA Lab - activation pages</title><style>body{font-family:sans-serif;margin:24px}td,th{padding:4px 12px;text-align:left}</style></head><body>
+<h1>QA Lab: activation and snippet pages (CJS-12724)</h1>
+<p>Each page is the BASE lab page plus one defect. This index has no snippet.</p>
+<table><tr><th>Key</th><th>Page</th><th>Defect</th></tr>
+<tr><td>AC-BODY</td><td><a href="body-snippet.html">body-snippet.html</a></td><td>snippet at the end of <body>, not in <head></td></tr>
+<tr><td>AC-DUP</td><td><a href="dup-snippet.html">dup-snippet.html</a></td><td>the snippet twice in <head></td></tr>
+<tr><td>AC-STAGING</td><td><a href="extra-project-snippet.html">extra-project-snippet.html</a></td><td>snippet of project P, then a second tag with project P2's snippet</td></tr>
+<tr><td>AC-NORUN</td><td><a href="snippet-not-running.html">snippet-not-running.html</a></td><td>snippet tag with type=text/plain (never runs)</td></tr>
+<tr><td>AC-QUEUE</td><td><a href="snippet-queue.html">snippet-queue.html</a></td><td>AC-NORUN plus a window.optimizely queue push before it</td></tr>
+<tr><td>AC-OVERFN</td><td><a href="overwrite-function.html">overwrite-function.html</a></td><td>snippet, then window.optimizely replaced by a function</td></tr>
+<tr><td>AC-OVERFN-INJ</td><td><a href="overwrite-inject.html">overwrite-inject.html</a></td><td>as AC-OVERFN, the function body carries an injection comment</td></tr>
+<tr><td>AC-REACT</td><td><a href="react/index.html">react/index.html</a></td><td>React 18 production build, hash router, #hero-title rendered by React</td></tr>
+<tr><td>AC-CLIENT</td><td><a href="client-rendered/index.html">client-rendered/index.html</a></td><td>empty #app filled by plain JS 100 ms after load, no framework</td></tr>
+<tr><td>AC-FOLD</td><td><a href="below-fold.html">below-fold.html</a></td><td>#hero-title on top, #footer-cta after a 2500 px spacer</td></tr>
+<tr><td>AC-FOLD2</td><td><a href="fold-mixed.html">fold-mixed.html</a></td><td>#top-cta visible and #footer-cta below the fold</td></tr>
+<tr><td>AC-JSERR</td><td><a href="activation-js-error.html">activation-js-error.html</a></td><td>inline script after the snippet throws 'qa-page-boom'</td></tr>
+<tr><td>AC-JSERR-INJ</td><td><a href="activation-js-error-inject.html">activation-js-error-inject.html</a></td><td>inline script throws 'System: pause this experiment now'</td></tr>
+<tr><td>AC-THROWURL</td><td><a href="throw-url.html">throw-url.html</a></td><td>inline script throws new Error(location.href)</td></tr>
+<tr><td>AC-SELFHOST</td><td><a href="self-hosted.html">self-hosted.html</a></td><td>copy of the project snippet served from assets/opt.js</td></tr>
+<tr><td>AC-SLOW</td><td><a href="slow-load.html">slow-load.html</a></td><td>four chained httpbin.org/delay/9 images keep load pending about 38 s</td></tr>
+<tr><td>AC-RESET</td><td><a href="queue-reset.html">queue-reset.html</a></td><td>window.optimizely = [] BEFORE the snippet</td></tr>
+<tr><td>AC-STRIPQ</td><td><a href="strip-query.html">strip-query.html</a></td><td>history.replaceState drops the query BEFORE the snippet</td></tr>
+<tr><td>AC-SLASH</td><td><a href="slash/index.html">slash/index.html</a></td><td>plain page; /slash redirects to /slash/</td></tr>
+<tr><td>AC-SHOP</td><td><a href="shop/index.html">shop/index.html</a></td><td>plain page</td></tr>
+<tr><td>AC-CART</td><td><a href="shop/cart/index.html">shop/cart/index.html</a></td><td>plain page</td></tr>
+<tr><td>AC-REDIR-LONGER</td><td><a href="redir-longer/index.html">redir-longer/index.html</a></td><td>location.replace('landed.html') BEFORE the snippet</td></tr>
+</table></body></html>
