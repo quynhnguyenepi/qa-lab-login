@@ -1,4 +1,4 @@
-# activation: lab pages for the QA Agent checks of CJS-12724
+# activation: lab pages for the QA Agent checks of CJS-12724 and CJS-13087
 
 Published at `https://quynhnguyenepi.github.io/qa-lab-login/activation/`. The root `Index.html` of this repo (the login wall of CJS-12300) is not touched.
 
@@ -27,6 +27,7 @@ Every page is the BASE lab page (`https://quynhnguyenepi.github.io/qa-lab-1/Inde
 | AC-SLASH | `slash/index.html` | plain page; `/slash` redirects to `/slash/` |
 | AC-SHOP, AC-CART | `shop/index.html`, `shop/cart/index.html` | plain pages |
 | AC-REDIR-LONGER | `redir-longer/index.html` | `location.replace('landed.html')` before the snippet, lands on `redir-longer/landed.html` |
+| AC-PUSHBLOCK | `push-blocked.html` | snippet, then `window.optimizely.push` throws `qa-push-blocked` for `{type: 'page'}` only, so the QA probe's page activation request is rejected (`pushFailed`, CJS-13087); other push types and the snippet's own activation still work |
 
 ## Maintenance
 
@@ -34,3 +35,4 @@ Every page is the BASE lab page (`https://quynhnguyenepi.github.io/qa-lab-1/Inde
 - **AC-SELFHOST needs a fresh copy**: `assets/opt.js` is a fixed revision of the project snippet. After the experiment under test is published, rerun `build.py` and push, otherwise the QA Agent also reports `snippet-revision-stale`.
 - **AC-SLOW depends on httpbin.org.** If that service is down the images fail at once and `load` is no longer delayed; run the page in a browser first and check it stays in `interactive` for over 20 s.
 - Checked locally on 2026-11-12 in Chromium: snippet placement, error messages, URL changes, redirect, fold positions (footer at 2598 to 2614 px, viewport 720 px), React markers (`__reactContainer$`, `React`, `ReactDOM`), AC-CLIENT (server text 0 characters, rendered 2347), and AC-SLOW (`load` after 38 s). Not checked: how the QA Agent's own probe reads them.
+- AC-PUSHBLOCK checked locally on 2026-11-12 in Chromium: the snippet loads (`get('data').projectId` = `4868003032989696`, `get('state')` works), `push({type: 'page', pageName})` throws `qa-push-blocked`, `push({type: 'log'})` and `push({type: 'user'})` are still accepted (the user attribute reaches `get('visitor')`), and the page logs no console error. Control: the same page push is accepted on `shop/index.html`. Not checked: a QA Agent run against it.

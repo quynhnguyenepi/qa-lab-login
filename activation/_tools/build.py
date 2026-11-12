@@ -57,6 +57,7 @@ KEYS = [
     ("AC-SHOP", "shop/index.html", "plain page"),
     ("AC-CART", "shop/cart/index.html", "plain page"),
     ("AC-REDIR-LONGER", "redir-longer/index.html", "location.replace('landed.html') BEFORE the snippet"),
+    ("AC-PUSHBLOCK", "push-blocked.html", "snippet, then window.optimizely.push throws for {type:'page'} (CJS-13087)"),
 ]
 
 
@@ -173,6 +174,21 @@ def build(snippet_id, p2_id):
         " next(); })();"
     )
     pages["slow-load.html"] = page("QA Lab - AC-SLOW", head=snip + "\n" + script(chain))
+
+    # ---- CJS-13087: the snippet rejects a page activation request ----------------------------
+    # The QA probe activates a trigger-gated page with window.optimizely.push({type: 'page', pageName}).
+    # Here that call throws, so the probe reports it as `pushFailed` ("the snippet rejected the request to
+    # activate it"). Every other push type still reaches the snippet, and the snippet's own activation
+    # (Immediately, or a callback calling activate()) does not go through push, so it is unaffected.
+    block = (
+        "(function () { var o = window.optimizely;"
+        " if (!o || typeof o.push !== 'function') return;"
+        " var orig = o.push;"
+        " o.push = function (cmd) {"
+        " if (cmd && cmd.type === 'page') throw new Error('qa-push-blocked');"
+        " return orig.apply(this, arguments); }; })();"
+    )
+    pages["push-blocked.html"] = page("QA Lab - AC-PUSHBLOCK", head=snip + "\n" + script(block))
     return pages
 
 
